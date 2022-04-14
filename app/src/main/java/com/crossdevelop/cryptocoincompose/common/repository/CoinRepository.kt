@@ -2,6 +2,7 @@ package com.crossdevelop.cryptocoincompose.common.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.crossdevelop.cryptocoincompose.common.models.CoinDetail
 import com.crossdevelop.cryptocoincompose.common.models.CoinList
 import com.crossdevelop.cryptocoincompose.common.network.GeckoApiService
 import javax.inject.Inject
@@ -18,6 +19,10 @@ class CoinRepository @Inject constructor(
 
     suspend fun getCoinList() {
         _coins.value = geckoApiService.getCoins().map { it.toCoinList() }
+    }
+
+    suspend fun getCoinDetail(coinId : String) : CoinDetail {
+        return geckoApiService.getCoinDetail(coinId = coinId).toCoinDetail()
     }
 
 }

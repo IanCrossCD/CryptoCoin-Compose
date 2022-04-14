@@ -3,10 +3,13 @@ package com.crossdevelop.cryptocoincompose.feature
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.crossdevelop.cryptocoincompose.feature.coindashboard.DashboardRoute
+import androidx.navigation.navArgument
+import com.crossdevelop.cryptocoincompose.feature.coindashboard.CoinDashboardRoute
+import com.crossdevelop.cryptocoincompose.feature.coindetail.CoinDetailRoute
 
 
 @Composable
@@ -20,18 +23,14 @@ fun CryptoCoinNavGraph(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        composable(CryptoCoinDestinations.DASHBOARD_ROUTE) {
-//            val homeViewModel: HomeViewModel = viewModel(
-//                factory = HomeViewModel.provideFactory(appContainer.postsRepository)
-//            )
-
-            DashboardRoute()
+        composable(route = CryptoCoinDestinations.DASHBOARD_ROUTE) {
+            CoinDashboardRoute()
         }
-        composable(CryptoCoinDestinations.DETAIL_ROUTE) {
-//            val interestsViewModel: InterestsViewModel = viewModel(
-//                factory = InterestsViewModel.provideFactory(appContainer.interestsRepository)
-//            )
-
+        composable(
+            route = CryptoCoinDestinations.DETAIL_ROUTE,
+            arguments = listOf(navArgument(CryptoCoinNavArgs.COIN_ID) { type = NavType.StringType })
+        ) { backStackEntry ->
+            CoinDetailRoute(coinId = backStackEntry.arguments?.getString(CryptoCoinNavArgs.COIN_ID)!!)
         }
     }
 }

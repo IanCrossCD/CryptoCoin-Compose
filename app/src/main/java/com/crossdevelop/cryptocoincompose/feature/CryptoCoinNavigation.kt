@@ -9,7 +9,11 @@ import androidx.navigation.NavHostController
  */
 object CryptoCoinDestinations {
     const val DASHBOARD_ROUTE = "dashboard"
-    const val DETAIL_ROUTE = "detail"
+    const val DETAIL_ROUTE = "detail/{coinId}"
+}
+
+object CryptoCoinNavArgs {
+    const val COIN_ID = "coinId"
 }
 
 /**
@@ -31,11 +35,10 @@ class CryptoCoinNavigationActions(navController: NavHostController) {
             restoreState = true
         }
     }
+
+    lateinit var coinId : String
     val navigateToDetail: () -> Unit = {
-        navController.navigate(CryptoCoinDestinations.DETAIL_ROUTE) {
-//            popUpTo(navController.graph.findStartDestination().id) {
-//                saveState = true
-//            }
+        navController.navigate("${CryptoCoinDestinations.DETAIL_ROUTE}/$coinId") {
             launchSingleTop = true
             restoreState = true
         }

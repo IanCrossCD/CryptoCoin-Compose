@@ -1,4 +1,4 @@
-package com.crossdevelop.cryptocoincompose.feature.coindashboard
+package com.crossdevelop.cryptocoincompose.feature.coindetail
 
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
@@ -6,8 +6,9 @@ import androidx.compose.runtime.Composable
 
 
 @Composable
-fun CoinDashboardRoute(
+fun CoinDetailRoute(
+    coinId : String,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
-    CoinDashboardScreen()
+    CoinDetailScreen(coinId = coinId)
 }
