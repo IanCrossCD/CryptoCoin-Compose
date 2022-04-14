@@ -22,6 +22,29 @@ android {
         }
     }
 
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-DEBUG"
+
+            pseudoLocalesEnabled true
+            debuggable true
+
+            resValue "string", "app_name", "CryptoCoin DEBUG"
+
+//            buildConfigField "string", "GECKO_BASE_URL", "\"api.coingecko.com/api/v3/\""
+        }
+        release {
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            resValue "string", "app_name", "CryptoCoin"
+
+//            buildConfigField "string", "GECKO_BASE_URL", "\"api.coingecko.com/api/v3/\""
+        }
+    }
+
     signingConfigs {
         debug {
 
@@ -31,23 +54,6 @@ android {
         }
     }
 
-    buildTypes {
-//        debug {
-//            debugable true
-//            minifyEnabled false
-//
-//            resValue "string", "app_name", "CryptoCoin DEBUG"
-//            resValue "string", "base_url", ""
-//        }
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
-            resValue "string", "app_name", "CryptoCoin"
-
-            buildConfigField "BASE_URL", "base_url", ""
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -109,7 +115,7 @@ dependencies {
     // DI
     implementation "com.google.dagger:hilt-android:2.40.5"
     kapt "com.google.dagger:hilt-android-compiler:2.40.5"
-    implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0'
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
 
     // MOSHI
     kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.13.0'

@@ -1,44 +1,34 @@
-package com.crossdevelop.cryptocoincompose.feature.dashboard
+package com.crossdevelop.cryptocoincompose.feature.coindashboard
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.crossdevelop.cryptocoincompose.R
 import com.crossdevelop.cryptocoincompose.common.ui.theme.CryptoCoinTheme
+import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_large
 import com.crossdevelop.cryptocoincompose.core.ui.InsetAwareTopAppBar
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 
 
 @Composable
-fun DashboardScreen(name: String) {
+fun DashboardScreen() {
 
-//    Column(modifier = Modifier
-//        .navigationBarsPadding()
-//        .padding(top = contentPaddings.calculateTopPadding())) {
-//        // content can go here forexample...
-//        // if you want the content go below status bar
-//        //   you can remove the top padding for column
-//    }
-//
-//    InsetAwareTopAppBar(
-//        title = { Text("Toolbar") },
-//        backgroundColor = MaterialTheme.colors.surface.copy(alpha = 0.9f),
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .onSizeChanged { topAppBarSize = it.height }
-//    )
+    val viewModel: CoinDashboardViewModel = hiltViewModel()
 
+    val navigationBarPaddingValues = rememberInsetsPaddingValues(insets = LocalWindowInsets.current.navigationBars)
 
     Column {
 
@@ -49,12 +39,15 @@ fun DashboardScreen(name: String) {
             elevation = 0.dp
         )
 
+        val coins by viewModel.coins.observeAsState(initial = emptyList())
+
         LazyColumn(
+            contentPadding = PaddingValues(bottom = navigationBarPaddingValues.calculateBottomPadding()),
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            items(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16)) {
-                Text(modifier = Modifier.padding(16.dp), text = "Hello $name! + $it")
+            items(coins) {
+                CoinListItem(modifier = Modifier, coin = it)
             }
         }
     }
@@ -65,6 +58,6 @@ fun DashboardScreen(name: String) {
 @Composable
 fun DefaultPreview() {
     CryptoCoinTheme {
-        DashboardScreen("Android")
+        DashboardScreen()
     }
 }

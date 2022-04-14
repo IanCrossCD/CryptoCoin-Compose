@@ -1,4 +1,4 @@
-package com.olo.dairyqueen.common.di
+package com.crossdevelop.cryptocoincompose.common.di
 
 import android.content.Context
 import android.content.SharedPreferences
