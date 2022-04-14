@@ -1,4 +1,4 @@
-package com.crossdevelop.cryptocoincompose.feature.dashboard
+package com.crossdevelop.cryptocoincompose.feature.coindashboard
 
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
@@ -8,8 +8,6 @@ import androidx.compose.runtime.Composable
 @Composable
 fun DashboardRoute(
 //    interestsViewModel: InterestsViewModel,
-    isExpandedScreen: Boolean,
-//    openDrawer: () -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
 //    val tabContent = rememberTabContent(interestsViewModel)
@@ -18,12 +16,8 @@ fun DashboardRoute(
 //    }
 
     DashboardScreen(
-        name = "TESTER"
-//        tabContent = tabContent,
 //        currentSection = currentSection,
 //        isExpandedScreen = isExpandedScreen,
-//        onTabChange = updateSection,
-//        openDrawer = openDrawer,
 //        scaffoldState = scaffoldState
     )
 }

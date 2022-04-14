@@ -13,19 +13,19 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetworkModule {
+class GeckoNetworkModule {
 
     @Provides
     @Singleton
-    fun provideDqApiService(
+    fun provideGeckoApiService(
         client: OkHttpClient,
         moshi: Moshi
-    ): ApiService {
+    ): GeckoApiService {
         return Retrofit.Builder()
-//            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl("https://api.coingecko.com/api/v3/")
             .client(client)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
-            .create(ApiService::class.java)
+            .create(GeckoApiService::class.java)
     }
 }

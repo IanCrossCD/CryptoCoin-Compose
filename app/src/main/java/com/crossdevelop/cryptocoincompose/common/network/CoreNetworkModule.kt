@@ -1,6 +1,7 @@
 package com.crossdevelop.cryptocoincompose.common.network
 
 import android.content.Context
+import com.crossdevelop.cryptocoincompose.common.network.interceptors.CryptoCoinInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,9 +15,14 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
-@Module(includes = [NetworkModule::class])
+@Module(includes = [GeckoNetworkModule::class])
 @InstallIn(SingletonComponent::class)
 class CoreNetworkModule {
+
+    @Provides
+    @Singleton
+    fun provideInterceptor(): CryptoCoinInterceptor = CryptoCoinInterceptor()
+
 
     private val logging = HttpLoggingInterceptor()
         .setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -32,13 +38,15 @@ class CoreNetworkModule {
     @Singleton
     fun provideOkHttpClient(
         cache: Cache,
+        cryptoCoinInterceptor: CryptoCoinInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
-            .connectTimeout(5000, TimeUnit.MILLISECONDS)
+            .connectTimeout(10000, TimeUnit.MILLISECONDS)
             .readTimeout(20000, TimeUnit.MILLISECONDS)
             .writeTimeout(20000, TimeUnit.MILLISECONDS)
             .cache(cache)
             .addNetworkInterceptor(logging)
+            .addInterceptor(cryptoCoinInterceptor)
             .build()
     }
 }

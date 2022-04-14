@@ -6,13 +6,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.crossdevelop.cryptocoincompose.feature.dashboard.DashboardRoute
+import com.crossdevelop.cryptocoincompose.feature.coindashboard.DashboardRoute
 
 
 @Composable
 fun CryptoCoinNavGraph(
-    isExpandedScreen: Boolean,
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String = CryptoCoinDestinations.DASHBOARD_ROUTE
 ) {
@@ -26,7 +25,7 @@ fun CryptoCoinNavGraph(
 //                factory = HomeViewModel.provideFactory(appContainer.postsRepository)
 //            )
 
-            DashboardRoute(isExpandedScreen = isExpandedScreen)
+            DashboardRoute()
         }
         composable(CryptoCoinDestinations.DETAIL_ROUTE) {
 //            val interestsViewModel: InterestsViewModel = viewModel(

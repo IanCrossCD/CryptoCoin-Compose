@@ -1,15 +1,18 @@
 package com.crossdevelop.cryptocoincompose
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
 
-
+@HiltAndroidApp
 class CryptoCoinApplication : Application() {
-
-    // AppContainer instance used by the rest of classes to obtain dependencies
-//    lateinit var container: AppContainer
 
     override fun onCreate() {
         super.onCreate()
-//        container = AppContainerImpl(this)
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
+
 }
