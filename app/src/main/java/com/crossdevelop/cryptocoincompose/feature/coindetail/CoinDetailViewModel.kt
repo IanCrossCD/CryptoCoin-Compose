@@ -1,14 +1,15 @@
 package com.crossdevelop.cryptocoincompose.feature.coindetail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.crossdevelop.cryptocoincompose.common.base.BaseViewModel
+import com.crossdevelop.cryptocoincompose.common.di.ActivitySnack
 import com.crossdevelop.cryptocoincompose.common.models.CoinDetail
 import com.crossdevelop.cryptocoincompose.common.repository.CoinRepository
 import com.crossdevelop.cryptocoincompose.feature.CryptoCoinNavArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -16,12 +17,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CoinDetailViewModel @Inject constructor(
-    private val savedState: SavedStateHandle,
+    savedState: SavedStateHandle,
+    @ActivitySnack private val activitySnack: MutableStateFlow<String?>,
     private val coinRepository: CoinRepository
-) : ViewModel() {
+) : BaseViewModel(activitySnack) {
 
-    private var _coinDetail: MutableLiveData<CoinDetail> = MutableLiveData()
-    val coinDetail: LiveData<CoinDetail> get() = _coinDetail
+    private var _coinDetail: MutableStateFlow<ViewState> = MutableStateFlow(ViewState.Loading)
+    val coinDetail: StateFlow<ViewState> = _coinDetail
 
     init {
         getCoinDetail(savedState.get<String>(CryptoCoinNavArgs.COIN_ID)!!)
@@ -32,10 +34,17 @@ class CoinDetailViewModel @Inject constructor(
             kotlin.runCatching {
                 coinRepository.getCoinDetail(coinId)
             }.onSuccess {
-                _coinDetail.postValue(it)
+                _coinDetail.value = ViewState.CoinDetailResult(it)
             }.onFailure {
-                Timber.e(it)
+                handleError(it)
+                _coinDetail.value = ViewState.Error(it.toString())
             }
         }
+    }
+
+    sealed class ViewState {
+        object Loading : ViewState()
+        data class CoinDetailResult(val coinDetail: CoinDetail) : ViewState()
+        data class Error(val error: String) : ViewState()
     }
 }

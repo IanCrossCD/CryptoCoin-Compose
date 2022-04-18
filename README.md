@@ -8,6 +8,7 @@ Core UI Proofs needed:
  - Tabs
  - Weird View shapes with repeated tile backgrounds
  - Global overridden handleBackPress
+ - Custom Splash Screen w/ animation
 
 Possibilities
  - View Pager

@@ -21,7 +21,7 @@ import java.time.LocalTime
 
 @Composable
 fun InsetAwareTopAppBar(
-    title: String,
+    title: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     navigationIcon: @Composable (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
@@ -35,11 +35,8 @@ fun InsetAwareTopAppBar(
         modifier = modifier
     ) {
 
-        val curTime = LocalTime.now()
-        val appBarTitle = "$title : ${curTime.hour}:${curTime.minute}"
-
         TopAppBar(
-            title = { Text(appBarTitle) },
+            title = title,
             navigationIcon = navigationIcon,
             actions = actions,
             backgroundColor = Color.Transparent,
