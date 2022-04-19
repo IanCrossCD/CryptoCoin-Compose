@@ -1,27 +1,19 @@
 package com.crossdevelop.cryptocoincompose.feature
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.crossdevelop.cryptocoincompose.common.di.ActivitySnack
 import com.crossdevelop.cryptocoincompose.common.repository.CoinRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import timber.log.Timber
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
+    @ActivitySnack _activitySnack: MutableStateFlow<String>,
     private val coinRepository: CoinRepository
 ) : ViewModel() {
 
-    fun initCoinList() {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                coinRepository.getCoinList()
-            }.onFailure {
-                Timber.e(it)
-            }
-        }
-    }
+    val activitySnack: MutableStateFlow<String> = _activitySnack
 
 }

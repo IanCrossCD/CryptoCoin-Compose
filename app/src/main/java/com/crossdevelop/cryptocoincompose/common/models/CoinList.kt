@@ -1,7 +1,5 @@
 package com.crossdevelop.cryptocoincompose.common.models
 
-import com.squareup.moshi.JsonClass
-
 
 data class CoinList(
     val id: String,
