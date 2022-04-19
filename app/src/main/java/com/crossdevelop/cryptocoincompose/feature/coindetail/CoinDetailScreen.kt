@@ -74,11 +74,21 @@ fun CoinDetailScreen(appContainer: AppContainer) {
 }
 
 @Composable
+private fun SuccessScreen(coinDetail: CoinDetail) {
+    coinDetail.description?.let {
+        Text(text = it)
+    }
+
+}
+
+@Composable
 private fun ConfirmationDialog(appContainer: AppContainer, showDialog: MutableState<Boolean>) {
     AlertDialog(onDismissRequest = {
         showDialog.value = false
     }, title = {
         Text("Are you sure?")
+    }, text = {
+        Text("Do you really want to leave this page")
     }, confirmButton = {
         Button(onClick = {
             appContainer.pressBack()
@@ -86,11 +96,6 @@ private fun ConfirmationDialog(appContainer: AppContainer, showDialog: MutableSt
             Text(text = "Yes")
         }
     })
-}
-
-@Composable
-private fun SuccessScreen(coinDetail: CoinDetail) {
-    Text(text = coinDetail.description)
 }
 
 @Preview(showBackground = true)

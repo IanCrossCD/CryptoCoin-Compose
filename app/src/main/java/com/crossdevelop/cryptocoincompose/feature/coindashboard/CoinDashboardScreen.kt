@@ -26,7 +26,6 @@ import com.crossdevelop.cryptocoincompose.common.ui.CircularProgressLoadingScree
 import com.crossdevelop.cryptocoincompose.common.ui.theme.CryptoCoinTheme
 import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_default
 import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_large
-import com.crossdevelop.cryptocoincompose.common.utils.BackPressHandler
 import com.crossdevelop.cryptocoincompose.core.ui.InsetAwareTopAppBar
 import com.crossdevelop.cryptocoincompose.feature.AppContainer
 import com.crossdevelop.cryptocoincompose.feature.coindetail.navigateCoinListToCoinDetail
@@ -47,13 +46,16 @@ fun CoinDashboardScreen(appContainer: AppContainer) {
     val swipeState = rememberSwipeRefreshState(isRefreshing = false)
     val coroutineScope = rememberCoroutineScope()
 
-//    val eventState by viewModel.coinDashboardEvent.collectAsState()
-//    when (eventState) {
-//        is CoinDashboardViewModel.CoinDashboardEvent.GoToCoinDetail -> {
-//            appContainer.navController.navigateCoinListToCoinDetail((eventState as CoinDashboardViewModel.CoinDashboardEvent.GoToCoinDetail).coinId)
-//        }
-//        else -> {}
-//    }
+    val eventState by viewModel.viewEvent.collectAsState()
+    when (eventState) {
+        is CoinDashboardViewModel.ViewEvent.GoToCoinDetail -> {
+            viewModel.consumedEvent()
+            appContainer.navController.navigateCoinListToCoinDetail((eventState as CoinDashboardViewModel.ViewEvent.GoToCoinDetail).coinId)
+        }
+        else -> {
+            // No Impl
+        }
+    }
 
     Column {
 
@@ -79,7 +81,6 @@ fun CoinDashboardScreen(appContainer: AppContainer) {
                 is CoinDashboardViewModel.ViewState.CoinListResult -> {
                     SuccessScreen(
                         coins = (viewState as CoinDashboardViewModel.ViewState.CoinListResult).coins,
-                        navController = appContainer.navController,
                         viewModel = viewModel,
                         columnState = columnState
                     )
@@ -93,7 +94,6 @@ fun CoinDashboardScreen(appContainer: AppContainer) {
 private fun SuccessScreen(
     coins: List<CoinList>,
     viewModel: CoinDashboardViewModel,
-    navController: NavHostController,
     columnState: LazyListState,
 ) {
 
@@ -109,8 +109,7 @@ private fun SuccessScreen(
                 modifier = Modifier.padding(horizontal = spacing_large, vertical = spacing_default),
                 coin = coin,
                 onClick = {
-//                    viewModel.goToCoinDetail(coin.id)
-                    navController.navigateCoinListToCoinDetail(coin.id)
+                    viewModel.goToCoinDetail(coin.id)
                 })
         }
     }

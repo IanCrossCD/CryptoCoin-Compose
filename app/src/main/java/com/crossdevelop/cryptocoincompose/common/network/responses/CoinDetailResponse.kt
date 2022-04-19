@@ -12,7 +12,7 @@ data class CoinDetailResponse(
     val id: String,
     val symbol: String,
     val name: String,
-    val description: String,
+    val description: DetailDescriptionResponse,
     val links: DetailLinksResponse,
     val image: DetailImageResponse,
     @Json(name = "hashing_algorithm") val hashingAlg: String?,
@@ -40,11 +40,16 @@ data class CoinDetailResponse(
         fun toCoinDetailImage(): CoinDetailImage = CoinDetailImage(thumb, small, large)
     }
 
+    @JsonClass(generateAdapter = true)
+    data class DetailDescriptionResponse(
+        val en: String?,
+    )
+
     fun toCoinDetail() = CoinDetail(
         id = id,
         symbol = symbol,
         name = name,
-        description = description,
+        description = description.en,
         links = links.toCoinDetailLinks(),
         image = image.toCoinDetailImage(),
         hashingAlg = hashingAlg,
