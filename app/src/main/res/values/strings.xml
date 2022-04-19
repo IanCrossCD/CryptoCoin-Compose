@@ -1,3 +1,10 @@
 <resources>
     <string name="crypto_compose">Crypto Compose</string>
+    <string name="oops_nothing_was_found">Oops, nothing was found</string>
+    <string name="yes">Yes</string>
+    <string name="do_you_really_want_to_leave_this_page">Do you really want to leave this page</string>
+    <string name="leave_this_page">Leave this page?</string>
+    <string name="coin_info">Coin Info</string>
+    <string name="navigate_back">navigate back</string>
+    <string name="nope">Nope</string>
 </resources>

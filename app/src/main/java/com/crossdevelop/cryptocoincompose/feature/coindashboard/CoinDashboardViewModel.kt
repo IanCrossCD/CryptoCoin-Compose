@@ -24,6 +24,9 @@ class CoinDashboardViewModel @Inject constructor(
     private var _viewEvent = MutableStateFlow<ViewEvent>(ViewEvent.Nothing)
     val viewEvent: StateFlow<ViewEvent> = _viewEvent
 
+    private var coins: List<CoinList> = emptyList()
+    private var currentQuery: String = ""
+
     init {
         getCoinList()
     }
@@ -33,10 +36,28 @@ class CoinDashboardViewModel @Inject constructor(
             kotlin.runCatching {
                 coinRepository.getCoinList()
             }.onSuccess {
-                _viewState.value = ViewState.CoinListResult(it)
+                coins = it
+                queryCoins(currentQuery)
             }.onFailure {
                 handleError(it)
             }
+        }
+    }
+
+    fun queryCoins(query: String) {
+        viewModelScope.launch {
+            currentQuery = query
+            val filteredCoins = if (query.isNotEmpty()) {
+                coins.filter { it.symbol.contains(query) }
+            } else {
+                coins
+            }
+            _viewState.tryEmit(
+                ViewState.CoinListResult(
+                    _query = currentQuery,
+                    coins = filteredCoins
+                )
+            )
         }
     }
 
@@ -53,9 +74,9 @@ class CoinDashboardViewModel @Inject constructor(
         data class GoToCoinDetail(val coinId: String) : ViewEvent()
     }
 
-    sealed class ViewState {
-        object Loading : ViewState()
-        data class CoinListResult(val coins: List<CoinList>) : ViewState()
+    sealed class ViewState(val query: String) {
+        object Loading : ViewState("")
+        data class CoinListResult(private val _query: String, val coins: List<CoinList>) : ViewState(_query)
     }
 
 }

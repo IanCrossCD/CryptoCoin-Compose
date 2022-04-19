@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.HttpException
 import timber.log.Timber
+import java.util.concurrent.CancellationException
 
 abstract class BaseViewModel(private val activityViewState: MutableStateFlow<String?>) : ViewModel() {
 
@@ -14,7 +15,9 @@ abstract class BaseViewModel(private val activityViewState: MutableStateFlow<Str
 
     fun handleError(error: Throwable) {
         Timber.e(error)
-        handleError(getErrorString(error))
+        if (error !is CancellationException) {
+            handleError(getErrorString(error))
+        }
     }
 //
 //    fun setActivityLoading() {

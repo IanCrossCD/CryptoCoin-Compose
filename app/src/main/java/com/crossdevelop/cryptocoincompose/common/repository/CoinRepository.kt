@@ -13,7 +13,10 @@ class CoinRepository @Inject constructor(
 ) {
 
     suspend fun getCoinList(): List<CoinList> {
-        return geckoApiService.getCoins().map { it.toCoinList() }
+        return geckoApiService.getCoins()
+            .filter { it.symbol.isNotBlank() }
+            .sortedBy { it.symbol }
+            .map { it.toCoinList() }
     }
 
     suspend fun getCoinDetail(coinId: String): CoinDetail {

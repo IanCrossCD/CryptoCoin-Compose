@@ -1,5 +1,6 @@
 package com.crossdevelop.cryptocoincompose.feature.coindetail
 
+import androidx.compose.runtime.MutableState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.crossdevelop.cryptocoincompose.common.base.BaseViewModel
@@ -37,7 +38,6 @@ class CoinDetailViewModel @Inject constructor(
                 _coinDetail.value = ViewState.CoinDetailResult(it)
             }.onFailure {
                 handleError(it)
-                _coinDetail.value = ViewState.Error(it.toString())
             }
         }
     }
@@ -45,6 +45,5 @@ class CoinDetailViewModel @Inject constructor(
     sealed class ViewState {
         object Loading : ViewState()
         data class CoinDetailResult(val coinDetail: CoinDetail) : ViewState()
-        data class Error(val error: String) : ViewState()
     }
 }
