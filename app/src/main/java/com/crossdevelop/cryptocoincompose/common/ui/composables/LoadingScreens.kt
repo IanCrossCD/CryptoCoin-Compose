@@ -1,4 +1,4 @@
-package com.crossdevelop.cryptocoincompose.common.ui
+package com.crossdevelop.cryptocoincompose.common.ui.composables
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

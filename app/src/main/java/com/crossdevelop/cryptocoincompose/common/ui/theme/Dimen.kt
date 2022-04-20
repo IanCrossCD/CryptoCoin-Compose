@@ -11,3 +11,8 @@ val spacing_large = 16.dp
 val spacing_xlarge = 24.dp
 val spacing_xxlarge = 36.dp
 val spacing_xxxlarge = 42.dp
+
+val border_stroke_small = 1.dp
+val border_stroke_medium = 2.dp
+
+val elevation_card = spacing_small

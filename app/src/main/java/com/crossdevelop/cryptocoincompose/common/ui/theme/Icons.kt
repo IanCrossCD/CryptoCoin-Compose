@@ -1,4 +1,4 @@
-package com.crossdevelop.cryptocoincompose.common.ui
+package com.crossdevelop.cryptocoincompose.common.ui.theme
 
 import androidx.compose.foundation.Image
 import androidx.compose.ui.res.painterResource

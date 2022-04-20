@@ -2,7 +2,6 @@ package com.crossdevelop.cryptocoincompose.common.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
@@ -15,8 +14,8 @@ import androidx.compose.runtime.Composable
 //)
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
+    primary = LightBlue400,
+    primaryVariant = Blue800,
     secondary = Teal200,
     background = White,
     onBackground = Black,
