@@ -7,4 +7,6 @@
     <string name="coin_info">Coin Info</string>
     <string name="navigate_back">navigate back</string>
     <string name="nope">Nope</string>
+    <string name="search">Search</string>
+    <string name="currencies">Currencies</string>
 </resources>

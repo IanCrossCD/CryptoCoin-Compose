@@ -24,10 +24,30 @@ data class CoinDetailResponse(
     data class DetailLinksResponse(
         val homepage: List<String>,
         @Json(name = "blockchain_site") val blockChainSites: List<String>,
-        @Json(name = "official_forum_url") val officialForumUrls: List<String>
+        @Json(name = "official_forum_url") val officialForumUrls: List<String>,
+        @Json(name = "twitter_screen_name") val twitterName: String?,
+        @Json(name = "facebook_username") val facebookName: String?,
+        @Json(name = "subreddit_url") val subRedditUrl: String?,
+        @Json(name = "repos_url") val repos: RepoUrlResponse
     ) {
 
-        fun toCoinDetailLinks(): CoinDetailLinks = CoinDetailLinks(homepage, blockChainSites, officialForumUrls)
+        @JsonClass(generateAdapter = true)
+        data class RepoUrlResponse(
+            val github: List<String>,
+            val bitbucket: List<String>
+        )
+
+
+        fun toCoinDetailLinks(): CoinDetailLinks = CoinDetailLinks(
+            homepage = homepage,
+            blockChainSites = blockChainSites,
+            officialForumUrls = officialForumUrls,
+            twitterName = twitterName,
+            facebookName = facebookName,
+            subRedditUrl = subRedditUrl,
+            githubUrl = repos.github.firstOrNull(),
+            bitbucketUrl = repos.bitbucket.firstOrNull()
+        )
     }
 
     @JsonClass(generateAdapter = true)

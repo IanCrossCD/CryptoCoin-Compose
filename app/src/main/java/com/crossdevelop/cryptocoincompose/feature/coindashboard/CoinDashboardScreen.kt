@@ -13,6 +13,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -27,8 +29,9 @@ import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_default
 import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_large
 import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_xlarge
 import com.crossdevelop.cryptocoincompose.common.utils.BackPressHandler
-import com.crossdevelop.cryptocoincompose.core.composables.InsetAwareTopAppBar
-import com.crossdevelop.cryptocoincompose.core.composables.SearchBar
+import com.crossdevelop.cryptocoincompose.common.ui.composables.ConfirmationDialog
+import com.crossdevelop.cryptocoincompose.common.ui.composables.InsetAwareTopAppBar
+import com.crossdevelop.cryptocoincompose.common.ui.composables.SearchBar
 import com.crossdevelop.cryptocoincompose.feature.AppContainer
 import com.crossdevelop.cryptocoincompose.feature.coindetail.navigateCoinListToCoinDetail
 import com.google.accompanist.insets.LocalWindowInsets
@@ -43,13 +46,7 @@ fun CoinDashboardScreen(appContainer: AppContainer) {
     val viewModel: CoinDashboardViewModel = hiltViewModel()
 
     val columnState = rememberLazyListState()
-//    val swipeState = rememberSwipeRefreshState(isRefreshing = false)
     val coroutineScope = rememberCoroutineScope()
-
-    val onBack = {
-        viewModel.handleError("At Root Compose")
-    }
-    BackPressHandler(onBackPressed = onBack)
 
     val eventState by viewModel.viewEvent.collectAsState()
     when (eventState) {
@@ -61,6 +58,20 @@ fun CoinDashboardScreen(appContainer: AppContainer) {
             // No Impl
         }
     }
+
+    val showDialog = remember { mutableStateOf(false) }
+    if (showDialog.value) {
+        ConfirmationDialog(
+            showDialog = showDialog,
+            title = stringResource(R.string.leave_this_page),
+            body = stringResource(R.string.do_you_really_want_to_leave_this_page),
+            onConfirm = {
+                viewModel.handleError(Throwable("At App Root"))
+            })
+    }
+
+    val onBack = { showDialog.value = true }
+    BackPressHandler(onBackPressed = onBack)
 
     Column {
 
@@ -82,11 +93,6 @@ fun CoinDashboardScreen(appContainer: AppContainer) {
                 viewModel.queryCoins(it)
             })
 
-//        SwipeRefresh(state = swipeState, onRefresh = {
-//            // TODO revisit refresh loading
-//            viewModel.getCoinList()
-//        }) {
-
         when (viewState) {
             is CoinDashboardViewModel.ViewState.Loading -> {
                 CircularProgressLoadingScreen()
@@ -99,7 +105,6 @@ fun CoinDashboardScreen(appContainer: AppContainer) {
                 )
             }
         }
-//        }
     }
 }
 
@@ -124,7 +129,7 @@ private fun SuccessScreen(
         ) {
             itemsIndexed(coins) { index, coin ->
                 if (index == 0) {
-                    CoinListDivider(text = "Available Currency")
+                    CoinListDivider(text = stringResource(R.string.currencies))
                 }
                 CoinListItem(
                     modifier = Modifier.padding(horizontal = spacing_large, vertical = spacing_default),

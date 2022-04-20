@@ -1,4 +1,4 @@
-package com.crossdevelop.cryptocoincompose.core.composables
+package com.crossdevelop.cryptocoincompose.common.ui.composables
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.MaterialTheme
