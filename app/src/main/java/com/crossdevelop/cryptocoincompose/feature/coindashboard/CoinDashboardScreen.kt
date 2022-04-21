@@ -24,14 +24,14 @@ import androidx.navigation.compose.rememberNavController
 import com.crossdevelop.cryptocoincompose.R
 import com.crossdevelop.cryptocoincompose.common.models.CoinList
 import com.crossdevelop.cryptocoincompose.common.ui.composables.CircularProgressLoadingScreen
+import com.crossdevelop.cryptocoincompose.common.ui.composables.ConfirmationDialog
+import com.crossdevelop.cryptocoincompose.common.ui.composables.InsetAwareTopAppBar
+import com.crossdevelop.cryptocoincompose.common.ui.composables.SearchBar
 import com.crossdevelop.cryptocoincompose.common.ui.theme.CryptoCoinTheme
 import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_default
 import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_large
 import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_xlarge
 import com.crossdevelop.cryptocoincompose.common.utils.BackPressHandler
-import com.crossdevelop.cryptocoincompose.common.ui.composables.ConfirmationDialog
-import com.crossdevelop.cryptocoincompose.common.ui.composables.InsetAwareTopAppBar
-import com.crossdevelop.cryptocoincompose.common.ui.composables.SearchBar
 import com.crossdevelop.cryptocoincompose.feature.AppContainer
 import com.crossdevelop.cryptocoincompose.feature.coindetail.navigateCoinListToCoinDetail
 import com.google.accompanist.insets.LocalWindowInsets
@@ -127,7 +127,23 @@ private fun SuccessScreen(
                 bottom = navigationBarPaddingValues.calculateBottomPadding()
             )
         ) {
-            itemsIndexed(coins) { index, coin ->
+            val favoriteCoins = coins.filter { it.favorite }
+            val otherCoins = coins.filter { !it.favorite }
+            itemsIndexed(favoriteCoins) { index, coin ->
+                if (index == 0) {
+                    CoinListDivider(text = "Favorites")
+                }
+                CoinListItem(
+                    modifier = Modifier.padding(horizontal = spacing_large, vertical = spacing_default),
+                    coin = coin,
+                    onClick = {
+                        viewModel.goToCoinDetail(coin.id)
+                    },
+                    onFav = {
+                        viewModel.deleteFavoriteCoin(coin.id)
+                    })
+            }
+            itemsIndexed(otherCoins) { index, coin ->
                 if (index == 0) {
                     CoinListDivider(text = stringResource(R.string.currencies))
                 }
@@ -136,6 +152,9 @@ private fun SuccessScreen(
                     coin = coin,
                     onClick = {
                         viewModel.goToCoinDetail(coin.id)
+                    },
+                    onFav = {
+                        viewModel.favoriteCoin(coin.id)
                     })
             }
         }

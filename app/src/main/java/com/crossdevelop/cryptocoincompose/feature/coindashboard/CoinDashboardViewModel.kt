@@ -6,6 +6,7 @@ import com.crossdevelop.cryptocoincompose.common.di.ActivitySnack
 import com.crossdevelop.cryptocoincompose.common.models.CoinList
 import com.crossdevelop.cryptocoincompose.common.repository.CoinRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -32,7 +33,7 @@ class CoinDashboardViewModel @Inject constructor(
     }
 
     fun getCoinList() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 coinRepository.getCoinList()
             }.onSuccess {
@@ -58,6 +59,20 @@ class CoinDashboardViewModel @Inject constructor(
                     coins = filteredCoins
                 )
             )
+        }
+    }
+
+    fun favoriteCoin(coinId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            coinRepository.favoriteCoin(coinId = coinId)
+            getCoinList()
+        }
+    }
+
+    fun deleteFavoriteCoin(coinId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            coinRepository.deleteCoin(coinId = coinId)
+            getCoinList()
         }
     }
 
