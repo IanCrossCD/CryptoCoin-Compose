@@ -1,10 +1,13 @@
 package com.crossdevelop.cryptocoincompose.common.network.responses
 
 import com.crossdevelop.cryptocoincompose.common.models.CoinDetail
+import com.crossdevelop.cryptocoincompose.common.models.CoinDetailCurrentPrice
 import com.crossdevelop.cryptocoincompose.common.models.CoinDetailImage
 import com.crossdevelop.cryptocoincompose.common.models.CoinDetailLinks
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 @JsonClass(generateAdapter = true)
@@ -15,9 +18,12 @@ data class CoinDetailResponse(
     val description: DetailDescriptionResponse,
     val links: DetailLinksResponse,
     val image: DetailImageResponse,
-    @Json(name = "hashing_algorithm") val hashingAlg: String?,
-    @Json(name = "block_time_in_minutes") val blockTimeInMinutes: Int,
-    @Json(name = "public_notice") val publicNotice: String?
+    val hashing_algorithm: String?,
+    val block_time_in_minutes: Int,
+    val public_notice: String?,
+    val genesis_date: String?,
+    val market_cap_rank: Int?,
+    val market_data: MarketDataResponse
 ) {
 
     @JsonClass(generateAdapter = true)
@@ -65,6 +71,21 @@ data class CoinDetailResponse(
         val en: String?,
     )
 
+    @JsonClass(generateAdapter = true)
+    data class MarketDataResponse(
+        val current_price: CurrentPriceResponse
+    ) {
+
+        @JsonClass(generateAdapter = true)
+        data class CurrentPriceResponse(
+            val usd: Float,
+            val btc: Float,
+            val eth: Float
+        ) {
+            fun toCoinDetailCurrentPrice() = CoinDetailCurrentPrice(usd = usd, eth = eth, btc = btc)
+        }
+    }
+
     fun toCoinDetail() = CoinDetail(
         id = id,
         symbol = symbol,
@@ -72,8 +93,11 @@ data class CoinDetailResponse(
         description = description.en,
         links = links.toCoinDetailLinks(),
         image = image.toCoinDetailImage(),
-        hashingAlg = hashingAlg,
-        blockTimeInMinutes = blockTimeInMinutes,
-        publicNotice = publicNotice
+        hashingAlg = hashing_algorithm,
+        blockTimeInMinutes = block_time_in_minutes,
+        publicNotice = public_notice,
+        marketCapRank = market_cap_rank,
+        genesisDate = genesis_date?.let {LocalDate.parse(genesis_date, DateTimeFormatter.ofPattern("yyyy-MM-dd")) },
+        currentPrices = market_data.current_price.toCoinDetailCurrentPrice()
     )
 }

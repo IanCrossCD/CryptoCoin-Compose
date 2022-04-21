@@ -6,6 +6,7 @@ import com.crossdevelop.cryptocoincompose.common.di.ActivitySnack
 import com.crossdevelop.cryptocoincompose.common.models.CoinList
 import com.crossdevelop.cryptocoincompose.common.repository.CoinRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -32,7 +33,7 @@ class CoinDashboardViewModel @Inject constructor(
     }
 
     fun getCoinList() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 coinRepository.getCoinList()
             }.onSuccess {
@@ -61,6 +62,22 @@ class CoinDashboardViewModel @Inject constructor(
         }
     }
 
+    fun favoriteCoin(coin: CoinList) {
+        viewModelScope.launch(Dispatchers.IO) {
+            coinRepository.favoriteCoin(coinId = coin.id)
+            getCoinList()
+            _viewEvent.value = ViewEvent.FavoriteChanged(true, coin.name)
+        }
+    }
+
+    fun deleteFavoriteCoin(coin: CoinList) {
+        viewModelScope.launch(Dispatchers.IO) {
+            coinRepository.deleteCoin(coinId = coin.id)
+            getCoinList()
+            _viewEvent.value = ViewEvent.FavoriteChanged(false, coin.name)
+        }
+    }
+
     fun goToCoinDetail(coinId: String) {
         _viewEvent.tryEmit(ViewEvent.GoToCoinDetail(coinId))
     }
@@ -72,6 +89,7 @@ class CoinDashboardViewModel @Inject constructor(
     sealed class ViewEvent {
         object Nothing : ViewEvent()
         data class GoToCoinDetail(val coinId: String) : ViewEvent()
+        data class FavoriteChanged(val favorited: Boolean, val coinName: String) : ViewEvent()
     }
 
     sealed class ViewState(val query: String) {

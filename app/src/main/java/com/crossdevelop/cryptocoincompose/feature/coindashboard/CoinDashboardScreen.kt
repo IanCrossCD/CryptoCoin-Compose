@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,14 +25,14 @@ import androidx.navigation.compose.rememberNavController
 import com.crossdevelop.cryptocoincompose.R
 import com.crossdevelop.cryptocoincompose.common.models.CoinList
 import com.crossdevelop.cryptocoincompose.common.ui.composables.CircularProgressLoadingScreen
+import com.crossdevelop.cryptocoincompose.common.ui.composables.ConfirmationDialog
+import com.crossdevelop.cryptocoincompose.common.ui.composables.InsetAwareTopAppBar
+import com.crossdevelop.cryptocoincompose.common.ui.composables.SearchBar
 import com.crossdevelop.cryptocoincompose.common.ui.theme.CryptoCoinTheme
 import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_default
 import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_large
 import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_xlarge
 import com.crossdevelop.cryptocoincompose.common.utils.BackPressHandler
-import com.crossdevelop.cryptocoincompose.common.ui.composables.ConfirmationDialog
-import com.crossdevelop.cryptocoincompose.common.ui.composables.InsetAwareTopAppBar
-import com.crossdevelop.cryptocoincompose.common.ui.composables.SearchBar
 import com.crossdevelop.cryptocoincompose.feature.AppContainer
 import com.crossdevelop.cryptocoincompose.feature.coindetail.navigateCoinListToCoinDetail
 import com.google.accompanist.insets.LocalWindowInsets
@@ -53,6 +54,16 @@ fun CoinDashboardScreen(appContainer: AppContainer) {
         is CoinDashboardViewModel.ViewEvent.GoToCoinDetail -> {
             viewModel.consumedEvent()
             appContainer.navController.navigateCoinListToCoinDetail((eventState as CoinDashboardViewModel.ViewEvent.GoToCoinDetail).coinId)
+        }
+        is CoinDashboardViewModel.ViewEvent.FavoriteChanged -> {
+            viewModel.consumedEvent()
+            val state = eventState as CoinDashboardViewModel.ViewEvent.FavoriteChanged
+            val message = if (state.favorited) {
+                stringResource(R.string.favorited_s, state.coinName)
+            } else {
+                stringResource(R.string.unfavorited_s, state.coinName)
+            }
+            showSnack(coroutineScope, appContainer, message)
         }
         else -> {
             // No Impl
@@ -127,7 +138,23 @@ private fun SuccessScreen(
                 bottom = navigationBarPaddingValues.calculateBottomPadding()
             )
         ) {
-            itemsIndexed(coins) { index, coin ->
+            val favoriteCoins = coins.filter { it.favorite }
+            val otherCoins = coins.filter { !it.favorite }
+            itemsIndexed(favoriteCoins) { index, coin ->
+                if (index == 0) {
+                    CoinListDivider(text = "Favorites")
+                }
+                CoinListItem(
+                    modifier = Modifier.padding(horizontal = spacing_large, vertical = spacing_default),
+                    coin = coin,
+                    onClick = {
+                        viewModel.goToCoinDetail(coin.id)
+                    },
+                    onFav = {
+                        viewModel.deleteFavoriteCoin(coin)
+                    })
+            }
+            itemsIndexed(otherCoins) { index, coin ->
                 if (index == 0) {
                     CoinListDivider(text = stringResource(R.string.currencies))
                 }
@@ -136,6 +163,9 @@ private fun SuccessScreen(
                     coin = coin,
                     onClick = {
                         viewModel.goToCoinDetail(coin.id)
+                    },
+                    onFav = {
+                        viewModel.favoriteCoin(coin)
                     })
             }
         }
@@ -152,10 +182,16 @@ fun onAppBarClick(coroutineScope: CoroutineScope, columnState: LazyListState) {
     }
 }
 
+fun showSnack(coroutineScope: CoroutineScope, appContainer: AppContainer, message: String) {
+    coroutineScope.launch {
+        appContainer.scaffoldState.snackbarHostState.showSnackbar(message)
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     CryptoCoinTheme {
-        CoinDashboardScreen(AppContainer(rememberNavController()))
+        CoinDashboardScreen(AppContainer(rememberNavController(), rememberScaffoldState()))
     }
 }

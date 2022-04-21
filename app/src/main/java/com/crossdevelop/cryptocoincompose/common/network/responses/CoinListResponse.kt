@@ -11,5 +11,5 @@ data class CoinListResponse(
     val symbol: String
 ) {
 
-    fun toCoinList() = CoinList(id = id, name = name, symbol = symbol)
+    fun toCoinList(isFavorite : Boolean) = CoinList(id = id, name = name, symbol = symbol, favorite = isFavorite)
 }

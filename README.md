@@ -12,7 +12,11 @@ Core UI Proofs needed:
 
 Possibilities
  - View Pager
- - 
+ *- Room impl 
 
 Missing UI Elements (That may cause issues)
  - Scrollbar indicators
+   
+Experiemental Items (Minor Issue)
+ - Accompianist Pager
+ - Hide Keyboard

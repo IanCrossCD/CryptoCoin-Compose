@@ -8,5 +8,10 @@
     <string name="navigate_back">navigate back</string>
     <string name="nope">Nope</string>
     <string name="search">Search</string>
-    <string name="currencies">Currencies</string>
+    <string name="currencies">All Coins</string>
+    <string name="created_s">Created: %s</string>
+    <string name="rank_s">Market Rank #%s</string>
+    <string name="favorited_s">Favorite: %s</string>
+    <string name="unfavorited_s">Un-Favorite: %s</string>
+    <string name="unknown">Unknown</string>
 </resources>

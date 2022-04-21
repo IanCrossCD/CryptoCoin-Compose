@@ -1,5 +1,7 @@
 package com.crossdevelop.cryptocoincompose.common.models
 
+import java.time.LocalDate
+
 
 data class CoinDetail(
     val id: String,
@@ -10,5 +12,8 @@ data class CoinDetail(
     val image: CoinDetailImage,
     val hashingAlg: String?,
     val blockTimeInMinutes: Int,
-    val publicNotice: String?
+    val publicNotice: String?,
+    val genesisDate: LocalDate?,
+    val currentPrices: CoinDetailCurrentPrice,
+    val marketCapRank: Int?
 )
