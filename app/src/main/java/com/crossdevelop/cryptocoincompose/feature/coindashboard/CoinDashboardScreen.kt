@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -53,6 +54,16 @@ fun CoinDashboardScreen(appContainer: AppContainer) {
         is CoinDashboardViewModel.ViewEvent.GoToCoinDetail -> {
             viewModel.consumedEvent()
             appContainer.navController.navigateCoinListToCoinDetail((eventState as CoinDashboardViewModel.ViewEvent.GoToCoinDetail).coinId)
+        }
+        is CoinDashboardViewModel.ViewEvent.FavoriteChanged -> {
+            viewModel.consumedEvent()
+            val state = eventState as CoinDashboardViewModel.ViewEvent.FavoriteChanged
+            val message = if (state.favorited) {
+                stringResource(R.string.favorited_s, state.coinName)
+            } else {
+                stringResource(R.string.unfavorited_s, state.coinName)
+            }
+            showSnack(coroutineScope, appContainer, message)
         }
         else -> {
             // No Impl
@@ -140,7 +151,7 @@ private fun SuccessScreen(
                         viewModel.goToCoinDetail(coin.id)
                     },
                     onFav = {
-                        viewModel.deleteFavoriteCoin(coin.id)
+                        viewModel.deleteFavoriteCoin(coin)
                     })
             }
             itemsIndexed(otherCoins) { index, coin ->
@@ -154,7 +165,7 @@ private fun SuccessScreen(
                         viewModel.goToCoinDetail(coin.id)
                     },
                     onFav = {
-                        viewModel.favoriteCoin(coin.id)
+                        viewModel.favoriteCoin(coin)
                     })
             }
         }
@@ -171,10 +182,16 @@ fun onAppBarClick(coroutineScope: CoroutineScope, columnState: LazyListState) {
     }
 }
 
+fun showSnack(coroutineScope: CoroutineScope, appContainer: AppContainer, message: String) {
+    coroutineScope.launch {
+        appContainer.scaffoldState.snackbarHostState.showSnackbar(message)
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     CryptoCoinTheme {
-        CoinDashboardScreen(AppContainer(rememberNavController()))
+        CoinDashboardScreen(AppContainer(rememberNavController(), rememberScaffoldState()))
     }
 }

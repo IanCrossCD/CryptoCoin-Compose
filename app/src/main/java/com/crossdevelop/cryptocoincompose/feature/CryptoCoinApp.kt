@@ -12,14 +12,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun CryptoCoinApp(appContainer: AppContainer) {
+fun CryptoCoinApp() {
 
-    val viewModel: MainActivityViewModel = hiltViewModel()
+    val viewModel: CryptoCoinAppViewModel = hiltViewModel()
 
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
@@ -28,6 +29,8 @@ fun CryptoCoinApp(appContainer: AppContainer) {
     SideEffect {
         systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = false)
     }
+
+    val appContainer = AppContainer(rememberNavController(), scaffoldState)
 
     Scaffold(
         modifier = Modifier,

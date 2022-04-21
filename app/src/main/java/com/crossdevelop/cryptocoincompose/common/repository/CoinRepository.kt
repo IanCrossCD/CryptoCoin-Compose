@@ -44,7 +44,7 @@ class CoinRepository @Inject constructor(
     }
 
     suspend fun deleteCoin(coinId: String) {
-        favoriteCoinDao.insertFavoriteCoin(FavoriteCoinEntity(coinId = coinId))
+        favoriteCoinDao.deleteFavoriteCoin(FavoriteCoinEntity(coinId = coinId))
     }
 
 }

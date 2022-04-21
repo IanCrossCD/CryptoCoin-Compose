@@ -9,19 +9,12 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "favorite_coins")
 class FavoriteCoinEntity {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     @NonNull
-    var id: Int = 0
-
     @ColumnInfo(name = "coin_id")
     var coinId: String = ""
 
     constructor() {}
-
-    constructor(id: Int, coinId: String) {
-        this.id = id
-        this.coinId = coinId
-    }
 
     constructor(coinId: String) {
         this.coinId = coinId

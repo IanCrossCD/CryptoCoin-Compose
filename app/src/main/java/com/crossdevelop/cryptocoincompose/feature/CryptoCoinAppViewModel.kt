@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(
+class CryptoCoinAppViewModel @Inject constructor(
     @ActivitySnack _activitySnack: MutableStateFlow<String>,
     private val coinRepository: CoinRepository
 ) : ViewModel() {

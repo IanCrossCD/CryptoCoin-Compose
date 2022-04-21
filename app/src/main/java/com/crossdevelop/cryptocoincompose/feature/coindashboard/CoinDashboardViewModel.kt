@@ -62,17 +62,19 @@ class CoinDashboardViewModel @Inject constructor(
         }
     }
 
-    fun favoriteCoin(coinId: String) {
+    fun favoriteCoin(coin: CoinList) {
         viewModelScope.launch(Dispatchers.IO) {
-            coinRepository.favoriteCoin(coinId = coinId)
+            coinRepository.favoriteCoin(coinId = coin.id)
             getCoinList()
+            _viewEvent.value = ViewEvent.FavoriteChanged(true, coin.name)
         }
     }
 
-    fun deleteFavoriteCoin(coinId: String) {
+    fun deleteFavoriteCoin(coin: CoinList) {
         viewModelScope.launch(Dispatchers.IO) {
-            coinRepository.deleteCoin(coinId = coinId)
+            coinRepository.deleteCoin(coinId = coin.id)
             getCoinList()
+            _viewEvent.value = ViewEvent.FavoriteChanged(false, coin.name)
         }
     }
 
@@ -87,6 +89,7 @@ class CoinDashboardViewModel @Inject constructor(
     sealed class ViewEvent {
         object Nothing : ViewEvent()
         data class GoToCoinDetail(val coinId: String) : ViewEvent()
+        data class FavoriteChanged(val favorited: Boolean, val coinName: String) : ViewEvent()
     }
 
     sealed class ViewState(val query: String) {
