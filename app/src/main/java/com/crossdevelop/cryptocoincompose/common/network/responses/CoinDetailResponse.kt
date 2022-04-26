@@ -78,9 +78,9 @@ data class CoinDetailResponse(
 
         @JsonClass(generateAdapter = true)
         data class CurrentPriceResponse(
-            val usd: Float,
-            val btc: Float,
-            val eth: Float
+            val usd: Double,
+            val btc: Double,
+            val eth: Double
         ) {
             fun toCoinDetailCurrentPrice() = CoinDetailCurrentPrice(usd = usd, eth = eth, btc = btc)
         }
@@ -97,7 +97,7 @@ data class CoinDetailResponse(
         blockTimeInMinutes = block_time_in_minutes,
         publicNotice = public_notice,
         marketCapRank = market_cap_rank,
-        genesisDate = genesis_date?.let {LocalDate.parse(genesis_date, DateTimeFormatter.ofPattern("yyyy-MM-dd")) },
+        genesisDate = genesis_date?.let { LocalDate.parse(genesis_date, DateTimeFormatter.ofPattern("yyyy-MM-dd")) },
         currentPrices = market_data.current_price.toCoinDetailCurrentPrice()
     )
 }
