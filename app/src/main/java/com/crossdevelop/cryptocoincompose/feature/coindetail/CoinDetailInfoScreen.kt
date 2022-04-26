@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,6 +22,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -35,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.crossdevelop.cryptocoincompose.R
 import com.crossdevelop.cryptocoincompose.common.models.CoinDetail
@@ -45,6 +48,7 @@ import com.crossdevelop.cryptocoincompose.common.ui.icons.Facebook
 import com.crossdevelop.cryptocoincompose.common.ui.icons.Github
 import com.crossdevelop.cryptocoincompose.common.ui.icons.Reddit
 import com.crossdevelop.cryptocoincompose.common.ui.icons.Twitter
+import com.crossdevelop.cryptocoincompose.common.ui.theme.CryptoCoinTheme
 import com.crossdevelop.cryptocoincompose.common.ui.theme.Red50
 import com.crossdevelop.cryptocoincompose.common.ui.theme.border_stroke_medium
 import com.crossdevelop.cryptocoincompose.common.ui.theme.border_stroke_small
@@ -60,27 +64,12 @@ import java.time.format.DateTimeFormatter
 
 
 @Composable
-fun CoinDetailInfoScreen(appContainer: AppContainer) {
-
-    val viewModel: CoinDetailViewModel = hiltViewModel()
-    
-    val viewState by viewModel.coinDetail.collectAsState()
-    when (viewState) {
-        is CoinDetailViewModel.ViewState.Loading -> {
-            CircularProgressLoadingScreen()
-        }
-        is CoinDetailViewModel.ViewState.CoinDetailResult -> {
-            SuccessScreen(coinDetail = (viewState as CoinDetailViewModel.ViewState.CoinDetailResult).coinDetail)
-        }
-    }
-}
-
-@Composable
-private fun SuccessScreen(coinDetail: CoinDetail) {
+fun CoinDetailInfoScreen(appContainer: AppContainer, coinDetail: CoinDetail) {
 
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .verticalScroll(state = scrollState)
             .navigationBarsPadding(),
     ) {
@@ -235,6 +224,6 @@ private fun SocialButton(context: Context, url: String, icon: ImageVector) {
 //@Composable
 //fun DefaultPreview() {
 //    CryptoCoinTheme {
-//        CoinDetailInfoScreen(AppContainer(rememberNavController(), rememberScaffoldState()))
+//        CoinDetailInfoScreen(appContainer = AppContainer(rememberNavController(), rememberScaffoldState()))
 //    }
 //}
