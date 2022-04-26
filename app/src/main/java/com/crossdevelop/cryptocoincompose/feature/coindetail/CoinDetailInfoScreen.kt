@@ -48,15 +48,7 @@ import com.crossdevelop.cryptocoincompose.common.ui.icons.Facebook
 import com.crossdevelop.cryptocoincompose.common.ui.icons.Github
 import com.crossdevelop.cryptocoincompose.common.ui.icons.Reddit
 import com.crossdevelop.cryptocoincompose.common.ui.icons.Twitter
-import com.crossdevelop.cryptocoincompose.common.ui.theme.CryptoCoinTheme
-import com.crossdevelop.cryptocoincompose.common.ui.theme.Red50
-import com.crossdevelop.cryptocoincompose.common.ui.theme.border_stroke_medium
-import com.crossdevelop.cryptocoincompose.common.ui.theme.border_stroke_small
-import com.crossdevelop.cryptocoincompose.common.ui.theme.elevation_card
-import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_default
-import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_large
-import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_small
-import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_zero
+import com.crossdevelop.cryptocoincompose.common.ui.theme.*
 import com.crossdevelop.cryptocoincompose.common.utils.parseHtml
 import com.crossdevelop.cryptocoincompose.feature.AppContainer
 import com.google.accompanist.insets.navigationBarsPadding
@@ -78,9 +70,9 @@ fun CoinDetailInfoScreen(appContainer: AppContainer, coinDetail: CoinDetail) {
 
         PublicNotice(coinDetail = coinDetail)
 
-        Info(coinDetail = coinDetail)
-
         SocialButtonsRow(coinDetail = coinDetail)
+
+        Info(coinDetail = coinDetail)
 
     }
 }
@@ -120,7 +112,7 @@ private fun PublicNotice(coinDetail: CoinDetail) {
         Surface(
             modifier = Modifier.padding(spacing_large),
             color = Red50,
-            shape = MaterialTheme.shapes.large,
+            shape = OffsetRoundedCornersShape,
             border = BorderStroke(border_stroke_medium, MaterialTheme.colors.error),
             elevation = elevation_card
         ) {

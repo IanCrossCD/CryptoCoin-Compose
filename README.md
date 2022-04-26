@@ -6,7 +6,7 @@ Core UI Proofs needed:
  - Step in/ Step over bottom navigation
  - Extensive Bottom Sheet manipulation
  *- Tabs
- - Weird View shapes with repeated tile backgrounds
+ *- Weird View shapes with repeated tile backgrounds
  *-  Global overridden handleBackPress
  - Custom Splash Screen w/ animation
  - Nav animations / animations
