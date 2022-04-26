@@ -15,6 +15,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.crossdevelop.cryptocoincompose.R
+import com.crossdevelop.cryptocoincompose.common.ui.composables.CircularProgressLoadingScreen
 import com.crossdevelop.cryptocoincompose.common.ui.composables.InsetAwareTopAppBar
 import com.crossdevelop.cryptocoincompose.common.ui.theme.CryptoCoinTheme
 import com.crossdevelop.cryptocoincompose.common.ui.theme.White
@@ -66,8 +69,7 @@ fun CoinDetailScreen(appContainer: AppContainer) {
             contentColor = White,
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
-                    modifier = Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
-                    color = MaterialTheme.colors.primaryVariant
+                    modifier = Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
                 )
             }) {
             Tab(
@@ -92,15 +94,24 @@ fun CoinDetailScreen(appContainer: AppContainer) {
             )
         }
 
-        HorizontalPager(
-            modifier = Modifier.fillMaxSize(),
-            state = pagerState,
-            count = 2
-        ) { page ->
-            if (page == 0) {
-                CoinDetailInfoScreen(appContainer = appContainer)
-            } else if (page == 1) {
-                CoinDetailInfoScreen(appContainer = appContainer)
+        val viewState by viewModel.coinDetail.collectAsState()
+        when (viewState) {
+            is CoinDetailViewModel.ViewState.Loading -> {
+                CircularProgressLoadingScreen()
+            }
+            is CoinDetailViewModel.ViewState.CoinDetailResult -> {
+                val coinDetail = (viewState as CoinDetailViewModel.ViewState.CoinDetailResult).coinDetail
+                HorizontalPager(
+                    modifier = Modifier.fillMaxSize(),
+                    state = pagerState,
+                    count = 2
+                ) { page ->
+                    if (page == 0) {
+                        CoinDetailInfoScreen(appContainer = appContainer, coinDetail = coinDetail)
+                    } else if (page == 1) {
+                        CoinDetailMarketScreen(appContainer = appContainer, coinDetail = coinDetail)
+                    }
+                }
             }
         }
     }
@@ -110,6 +121,6 @@ fun CoinDetailScreen(appContainer: AppContainer) {
 @Composable
 fun DefaultPreview() {
     CryptoCoinTheme {
-        CoinDetailScreen(AppContainer(rememberNavController(), rememberScaffoldState()))
+        CoinDetailScreen(appContainer = AppContainer(rememberNavController(), rememberScaffoldState()))
     }
 }
