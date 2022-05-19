@@ -1,9 +1,9 @@
-package com.crossdevelop.cryptocoincompose.common.network.responses
+package com.crossdevelop.cryptocoincompose.common.data.network.responses
 
-import com.crossdevelop.cryptocoincompose.common.models.CoinDetail
-import com.crossdevelop.cryptocoincompose.common.models.CoinDetailCurrentPrice
-import com.crossdevelop.cryptocoincompose.common.models.CoinDetailImage
-import com.crossdevelop.cryptocoincompose.common.models.CoinDetailLinks
+import com.crossdevelop.cryptocoincompose.common.domain.models.CoinDetail
+import com.crossdevelop.cryptocoincompose.common.domain.models.CoinDetailCurrentPrice
+import com.crossdevelop.cryptocoincompose.common.domain.models.CoinDetailImage
+import com.crossdevelop.cryptocoincompose.common.domain.models.CoinDetailLinks
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.time.LocalDate

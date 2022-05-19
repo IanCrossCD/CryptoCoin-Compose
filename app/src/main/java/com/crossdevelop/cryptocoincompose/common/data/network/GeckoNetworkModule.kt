@@ -1,6 +1,5 @@
-package com.crossdevelop.cryptocoincompose.common.network
+package com.crossdevelop.cryptocoincompose.common.data.network
 
-import com.crossdevelop.cryptocoincompose.BuildConfig
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides

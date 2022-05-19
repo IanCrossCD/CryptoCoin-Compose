@@ -1,4 +1,4 @@
-package com.crossdevelop.cryptocoincompose.common.database
+package com.crossdevelop.cryptocoincompose.common.data.database
 
 import androidx.room.Dao
 import androidx.room.Delete

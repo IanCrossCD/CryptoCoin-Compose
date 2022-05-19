@@ -1,11 +1,11 @@
-package com.crossdevelop.cryptocoincompose.common.repository
+package com.crossdevelop.cryptocoincompose.common.data.repository
 
-import com.crossdevelop.cryptocoincompose.common.database.FavoriteCoinDao
-import com.crossdevelop.cryptocoincompose.common.database.FavoriteCoinEntity
-import com.crossdevelop.cryptocoincompose.common.models.CoinDetail
-import com.crossdevelop.cryptocoincompose.common.models.CoinList
-import com.crossdevelop.cryptocoincompose.common.network.GeckoApiService
-import com.crossdevelop.cryptocoincompose.common.network.responses.CoinListResponse
+import com.crossdevelop.cryptocoincompose.common.data.database.FavoriteCoinDao
+import com.crossdevelop.cryptocoincompose.common.data.database.FavoriteCoinEntity
+import com.crossdevelop.cryptocoincompose.common.domain.models.CoinDetail
+import com.crossdevelop.cryptocoincompose.common.domain.models.CoinList
+import com.crossdevelop.cryptocoincompose.common.data.network.GeckoApiService
+import com.crossdevelop.cryptocoincompose.common.data.network.responses.CoinListResponse
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton

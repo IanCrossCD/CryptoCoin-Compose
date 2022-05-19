@@ -3,9 +3,9 @@ package com.crossdevelop.cryptocoincompose.common.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.crossdevelop.cryptocoincompose.BuildConfig
-import com.crossdevelop.cryptocoincompose.common.database.CryptoCoinDb
-import com.crossdevelop.cryptocoincompose.common.database.FavoriteCoinDao
-import com.crossdevelop.cryptocoincompose.common.network.CoreNetworkModule
+import com.crossdevelop.cryptocoincompose.common.data.database.CryptoCoinDb
+import com.crossdevelop.cryptocoincompose.common.data.database.FavoriteCoinDao
+import com.crossdevelop.cryptocoincompose.common.data.network.CoreNetworkModule
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides

@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "a1a5995d854103df1707c4a0b1ef8c99",
+    "entities": [
+      {
+        "tableName": "favorite_coins",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`coin_id` TEXT NOT NULL, PRIMARY KEY(`coin_id`))",
+        "fields": [
+          {
+            "fieldPath": "coinId",
+            "columnName": "coin_id",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "coin_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a1a5995d854103df1707c4a0b1ef8c99')"
+    ]
+  }
+}

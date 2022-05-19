@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import com.crossdevelop.cryptocoincompose.R
 import com.crossdevelop.cryptocoincompose.common.extensions.round
-import com.crossdevelop.cryptocoincompose.common.models.CoinDetail
+import com.crossdevelop.cryptocoincompose.common.domain.models.CoinDetail
 import com.crossdevelop.cryptocoincompose.common.ui.composables.TiledBackground
 import com.crossdevelop.cryptocoincompose.common.ui.theme.ObtuseShape
 import com.crossdevelop.cryptocoincompose.common.ui.theme.border_stroke_small
