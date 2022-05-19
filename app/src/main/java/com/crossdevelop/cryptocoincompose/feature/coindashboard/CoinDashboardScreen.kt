@@ -120,7 +120,7 @@ fun CoinDashboardScreen(appContainer: AppContainer) {
 }
 
 @Composable
-private fun git SuccessScreen(
+private fun SuccessScreen(
     coins: List<CoinList>,
     viewModel: CoinDashboardViewModel,
     columnState: LazyListState
