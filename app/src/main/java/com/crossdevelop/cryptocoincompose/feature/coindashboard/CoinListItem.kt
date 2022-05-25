@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.crossdevelop.cryptocoincompose.common.models.CoinList
+import com.crossdevelop.cryptocoincompose.common.domain.models.CoinList
 import com.crossdevelop.cryptocoincompose.common.ui.theme.Grey200
 import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_small
 import com.crossdevelop.cryptocoincompose.common.ui.theme.spacing_zero

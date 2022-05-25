@@ -3,8 +3,10 @@ package com.crossdevelop.cryptocoincompose.feature.coindashboard
 import androidx.lifecycle.viewModelScope
 import com.crossdevelop.cryptocoincompose.common.base.BaseViewModel
 import com.crossdevelop.cryptocoincompose.common.di.ActivitySnack
-import com.crossdevelop.cryptocoincompose.common.models.CoinList
-import com.crossdevelop.cryptocoincompose.common.repository.CoinRepository
+import com.crossdevelop.cryptocoincompose.common.domain.models.CoinList
+import com.crossdevelop.cryptocoincompose.common.domain.usecase.FavoriteCoinUseCase
+import com.crossdevelop.cryptocoincompose.common.domain.usecase.GetCoinListUseCase
+import com.crossdevelop.cryptocoincompose.common.domain.usecase.UnFavoriteCoinUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinDashboardViewModel @Inject constructor(
     @ActivitySnack private val activitySnack: MutableStateFlow<String?>,
-    private val coinRepository: CoinRepository
+    private val getCoinListUseCase: GetCoinListUseCase,
+    private val favoriteCoinUseCase: FavoriteCoinUseCase,
+    private val unFavoriteCoinUseCase: UnFavoriteCoinUseCase
 ) : BaseViewModel(activitySnack) {
 
     private var _viewState: MutableStateFlow<ViewState> = MutableStateFlow(ViewState.Loading)
@@ -35,7 +39,7 @@ class CoinDashboardViewModel @Inject constructor(
     fun getCoinList() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                coinRepository.getCoinList()
+                getCoinListUseCase.getCoinList()
             }.onSuccess {
                 coins = it
                 queryCoins(currentQuery)
@@ -64,7 +68,7 @@ class CoinDashboardViewModel @Inject constructor(
 
     fun favoriteCoin(coin: CoinList) {
         viewModelScope.launch(Dispatchers.IO) {
-            coinRepository.favoriteCoin(coinId = coin.id)
+            favoriteCoinUseCase.favoriteCoin(coinId = coin.id)
             getCoinList()
             _viewEvent.value = ViewEvent.FavoriteChanged(true, coin.name)
         }
@@ -72,7 +76,7 @@ class CoinDashboardViewModel @Inject constructor(
 
     fun deleteFavoriteCoin(coin: CoinList) {
         viewModelScope.launch(Dispatchers.IO) {
-            coinRepository.deleteCoin(coinId = coin.id)
+            unFavoriteCoinUseCase.unFavoriteCoin(coinId = coin.id)
             getCoinList()
             _viewEvent.value = ViewEvent.FavoriteChanged(false, coin.name)
         }

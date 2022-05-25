@@ -1,4 +1,4 @@
-package com.crossdevelop.cryptocoincompose.common.network.interceptors
+package com.crossdevelop.cryptocoincompose.common.data.network.interceptors
 
 import okhttp3.Interceptor
 import okhttp3.Response

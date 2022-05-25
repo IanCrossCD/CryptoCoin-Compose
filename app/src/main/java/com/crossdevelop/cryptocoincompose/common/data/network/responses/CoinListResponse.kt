@@ -1,6 +1,6 @@
-package com.crossdevelop.cryptocoincompose.common.network.responses
+package com.crossdevelop.cryptocoincompose.common.data.network.responses
 
-import com.crossdevelop.cryptocoincompose.common.models.CoinList
+import com.crossdevelop.cryptocoincompose.common.domain.models.CoinList
 import com.squareup.moshi.JsonClass
 
 

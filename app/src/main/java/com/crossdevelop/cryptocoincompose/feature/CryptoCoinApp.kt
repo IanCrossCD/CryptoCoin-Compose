@@ -1,5 +1,6 @@
 package com.crossdevelop.cryptocoincompose.feature
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
@@ -13,10 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun CryptoCoinApp() {
 
@@ -30,7 +33,7 @@ fun CryptoCoinApp() {
         systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = false)
     }
 
-    val appContainer = AppContainer(rememberNavController(), scaffoldState)
+    val appContainer = AppContainer(rememberAnimatedNavController(), scaffoldState)
 
     Scaffold(
         modifier = Modifier,

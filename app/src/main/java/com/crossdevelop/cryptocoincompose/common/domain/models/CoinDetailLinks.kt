@@ -1,4 +1,4 @@
-package com.crossdevelop.cryptocoincompose.common.models
+package com.crossdevelop.cryptocoincompose.common.domain.models
 
 
 data class CoinDetailLinks(

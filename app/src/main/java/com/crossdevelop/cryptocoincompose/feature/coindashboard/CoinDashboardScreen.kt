@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.crossdevelop.cryptocoincompose.R
-import com.crossdevelop.cryptocoincompose.common.models.CoinList
+import com.crossdevelop.cryptocoincompose.common.domain.models.CoinList
 import com.crossdevelop.cryptocoincompose.common.ui.composables.CircularProgressLoadingScreen
 import com.crossdevelop.cryptocoincompose.common.ui.composables.ConfirmationDialog
 import com.crossdevelop.cryptocoincompose.common.ui.composables.InsetAwareTopAppBar
@@ -138,8 +138,7 @@ private fun SuccessScreen(
                 bottom = navigationBarPaddingValues.calculateBottomPadding()
             )
         ) {
-            val favoriteCoins = coins.filter { it.favorite }
-            val otherCoins = coins.filter { !it.favorite }
+            val (favoriteCoins, otherCoins) = coins.partition { it.favorite }
             itemsIndexed(favoriteCoins) { index, coin ->
                 if (index == 0) {
                     CoinListDivider(text = "Favorites")

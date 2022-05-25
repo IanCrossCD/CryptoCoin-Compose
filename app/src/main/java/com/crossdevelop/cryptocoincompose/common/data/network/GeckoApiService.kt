@@ -1,7 +1,7 @@
-package com.crossdevelop.cryptocoincompose.common.network
+package com.crossdevelop.cryptocoincompose.common.data.network
 
-import com.crossdevelop.cryptocoincompose.common.network.responses.CoinDetailResponse
-import com.crossdevelop.cryptocoincompose.common.network.responses.CoinListResponse
+import com.crossdevelop.cryptocoincompose.common.data.network.responses.CoinDetailResponse
+import com.crossdevelop.cryptocoincompose.common.data.network.responses.CoinListResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 

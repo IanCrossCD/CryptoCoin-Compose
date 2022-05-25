@@ -4,8 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.crossdevelop.cryptocoincompose.common.base.BaseViewModel
 import com.crossdevelop.cryptocoincompose.common.di.ActivitySnack
-import com.crossdevelop.cryptocoincompose.common.models.CoinDetail
-import com.crossdevelop.cryptocoincompose.common.repository.CoinRepository
+import com.crossdevelop.cryptocoincompose.common.domain.models.CoinDetail
+import com.crossdevelop.cryptocoincompose.common.data.repository.CoinRepository
+import com.crossdevelop.cryptocoincompose.common.domain.usecase.GetCoinDetailUseCase
 import com.crossdevelop.cryptocoincompose.feature.CryptoCoinNavArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,7 @@ import javax.inject.Inject
 class CoinDetailViewModel @Inject constructor(
     savedState: SavedStateHandle,
     @ActivitySnack private val activitySnack: MutableStateFlow<String?>,
-    private val coinRepository: CoinRepository
+    private val getCoinDetailUseCase: GetCoinDetailUseCase
 ) : BaseViewModel(activitySnack) {
 
     private var _coinDetail: MutableStateFlow<ViewState> = MutableStateFlow(ViewState.Loading)
@@ -31,7 +32,7 @@ class CoinDetailViewModel @Inject constructor(
     private fun getCoinDetail(coinId: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                coinRepository.getCoinDetail(coinId)
+                getCoinDetailUseCase.getCoinDetail(coinId)
             }.onSuccess {
                 _coinDetail.value = ViewState.CoinDetailResult(it)
             }.onFailure {

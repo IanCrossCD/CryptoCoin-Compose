@@ -1,4 +1,4 @@
-package com.crossdevelop.cryptocoincompose.common.database
+package com.crossdevelop.cryptocoincompose.common.data.database
 
 import android.content.Context
 import androidx.room.Database

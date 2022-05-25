@@ -1,7 +1,7 @@
-package com.crossdevelop.cryptocoincompose.common.network
+package com.crossdevelop.cryptocoincompose.common.data.network
 
 import android.content.Context
-import com.crossdevelop.cryptocoincompose.common.network.interceptors.CryptoCoinInterceptor
+import com.crossdevelop.cryptocoincompose.common.data.network.interceptors.CryptoCoinInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
